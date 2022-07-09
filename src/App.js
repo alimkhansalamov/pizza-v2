@@ -4,9 +4,11 @@ import Header from './components/Header';
 import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
+import PizzaBlockSkeleton from './components/PizzaBlock/PizzaBlockSkeleton';
 
 function App() {
   let [items, setItems] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     (async function fetchItems() {
@@ -14,7 +16,7 @@ function App() {
         const response = await fetch('https://62c808dc8c90491c2cacf1b9.mockapi.io/items');
         const data = await response.json();
         setItems((items) => (items = data));
-        console.log(items);
+        setIsLoading((isLoading) => (isLoading = !isLoading));
       } catch (error) {
         console.log(error);
       }
@@ -32,9 +34,9 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {items.map((item) => (
-              <PizzaBlock key={item.id} {...item} />
-            ))}
+            {isLoading
+              ? [...new Array(6)].map((_, index) => <PizzaBlockSkeleton key={index} />)
+              : items.map((item) => <PizzaBlock key={item.id} {...item} />)}
           </div>
         </div>
       </div>
