@@ -3,6 +3,39 @@
 .categories {
   ul {
     display: flex;
+    @media (max-width: 1315px) {
+      width: 600px;
+      overflow: scroll;
+    }
+
+    @media (max-width: 1070px) {
+      width: 500px;
+    }
+
+    @media (max-width: 960px) {
+      width: 450px;
+    }
+
+    @media (max-width: 900px) {
+      width: 300px;
+    }
+
+    @media (max-width: 725px) {
+      width: 500px;
+      padding-top: 25px;
+    }
+
+    @media (max-width: 640px) {
+      width: 400px;
+    }
+
+    @media (max-width: 530px) {
+      width: 300px;
+    }
+
+    @media (max-width: 400px) {
+      width: 250px;
+    }
 
     li {
       background-color: #f9f9f9;

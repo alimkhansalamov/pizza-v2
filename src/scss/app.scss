@@ -24,15 +24,20 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 6px;
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 725px) {
+      flex-wrap: wrap-reverse;
+    }
   }
 }
 
