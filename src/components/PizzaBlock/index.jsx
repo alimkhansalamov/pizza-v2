@@ -11,9 +11,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
 
   const typeNames = ['тонкое', 'традиционное'];
 
-  useEffect(() => {
-    console.log(activeSize);
-  }, [activeSize]);
+  useEffect(() => {}, [activeSize]);
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">

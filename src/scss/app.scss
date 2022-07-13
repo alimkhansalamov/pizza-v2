@@ -119,7 +119,8 @@ body {
   }
 
   .content__items {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   &__item {

@@ -1,20 +1,18 @@
 import React from 'react';
 
-function Sort() {
-  const sorts = ['популярности', 'цене', 'алфавиту'];
+function Sort({ sorts, activeSort, setActiveSort, sortList }) {
   const [isVisible, setIsVisible] = React.useState(false);
-  const [chosenSort, setChosenSort] = React.useState(sorts[0]);
 
   const handleSortToggle = () => {
     setIsVisible((isVisible) => !isVisible);
-
     console.log(isVisible);
   };
 
-  const handleChosenSort = (sort) => {
-    setChosenSort((chosenSort) => sort);
+  const handleChosenSort = (obj) => {
+    setActiveSort((activeSort) => (activeSort = obj.name));
     setIsVisible((isVisible) => !isVisible);
   };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -30,34 +28,22 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => handleSortToggle()}>{chosenSort}</span>
+        <span onClick={() => handleSortToggle()}>{activeSort}</span>
       </div>
       {isVisible && (
         <div className="sort__popup">
           <ul>
-            {sorts.map((sort, i) => (
+            {sortList.map((obj, i) => (
               <li
                 key={i}
-                className={chosenSort === sort ? 'active' : ''}
-                onClick={() => handleChosenSort(sort)}>
-                {sort}
+                className={activeSort === obj ? 'active' : ''}
+                onClick={() => handleChosenSort(obj)}>
+                {obj.name}
               </li>
             ))}
           </ul>
         </div>
       )}
-
-      {/* {isVisible ? (
-        <div className="sort__popup">
-          <ul>
-            <li className="active">популярности</li>
-            <li>цене</li>
-            <li>алфавиту</li>
-          </ul>
-        </div>
-      ) : (
-        'Oops!'
-      )} */}
     </div>
   );
 }
