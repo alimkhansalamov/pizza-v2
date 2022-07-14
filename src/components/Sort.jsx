@@ -1,16 +1,26 @@
 import React from 'react';
 
-function Sort({ sorts, activeSort, setActiveSort, sortList }) {
+function Sort({ sortValue, changeActiveSort }) {
   const [isVisible, setIsVisible] = React.useState(false);
 
-  const handleSortToggle = () => {
-    setIsVisible((isVisible) => !isVisible);
-    console.log(isVisible);
+  const sortList = [
+    { name: 'популярности ↑', sortProperty: 'rating' },
+    { name: 'популярности ↓', sortProperty: '-rating' },
+    { name: 'цене ↑', sortProperty: 'price' },
+    { name: 'цене ↓', sortProperty: '-price' },
+    { name: 'алфавиту ↑', sortProperty: 'alphabet' },
+    { name: 'алфавиту ↓', sortProperty: '-alphabet' },
+  ];
+
+  const handleToggleSort = () => {
+    setIsVisible(!isVisible);
+    console.log('функция вызвалась');
   };
 
   const handleChosenSort = (obj) => {
-    setActiveSort((activeSort) => (activeSort = obj.name));
-    setIsVisible((isVisible) => !isVisible);
+    changeActiveSort(obj);
+    setIsVisible(false);
+    console.log(obj);
   };
 
   return (
@@ -28,7 +38,7 @@ function Sort({ sorts, activeSort, setActiveSort, sortList }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => handleSortToggle()}>{activeSort}</span>
+        <span onClick={handleToggleSort}>{sortValue}</span>
       </div>
       {isVisible && (
         <div className="sort__popup">
@@ -36,8 +46,8 @@ function Sort({ sorts, activeSort, setActiveSort, sortList }) {
             {sortList.map((obj, i) => (
               <li
                 key={i}
-                className={activeSort === obj ? 'active' : ''}
-                onClick={() => handleChosenSort(obj)}>
+                onClick={() => handleChosenSort(obj)}
+                className={sortValue === obj.name ? 'active' : ''}>
                 {obj.name}
               </li>
             ))}
