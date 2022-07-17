@@ -7,11 +7,14 @@ import PizzaBlockSkeleton from '../components/PizzaBlock/PizzaBlockSkeleton';
 const Home = () => {
   let [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [activeCategory, setActiveCategory] = React.useState('Все');
+  const [activeCategory, setActiveCategory] = React.useState(0);
   const [activeSort, setActiveSort] = React.useState({
     name: 'популярности↑',
     sortProperty: 'rating',
   });
+
+  console.log(activeCategory);
+  // console.log(activeSort);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -35,9 +38,9 @@ const Home = () => {
       <div className="content__top">
         <Categories
           currentCategory={activeCategory}
-          changeCurrentCategory={(category) => setActiveCategory(category)}
+          changeCurrentCategory={(categoryIndex) => setActiveCategory(categoryIndex)}
         />
-        <Sort currentSort={activeSort} changeCurrentSort={(sortObj) => setActiveSort(sortObj)} />
+        <Sort currentSort={activeSort} changeCurrentSort={(i) => setActiveSort(i)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
