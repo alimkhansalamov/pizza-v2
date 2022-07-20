@@ -5,22 +5,28 @@ import PizzaBlock from '../components/PizzaBlock';
 import PizzaBlockSkeleton from '../components/PizzaBlock/PizzaBlockSkeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from './../App';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { setCategoryId } from '../redux/slices/filterSlice';
 const Home = () => {
+  const dispatch = useDispatch();
+  const categoryId = useSelector((state) => state.filter.categoryId);
+  const sortType = useSelector((state) => state.filter.sort.sortProperty);
+
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [activeCategory, setActiveCategory] = React.useState(0);
-  const [activeSort, setActiveSort] = React.useState({
-    name: 'популярности↑',
-    sortProperty: 'rating',
-  });
   const [currentPage, setCurrentPage] = React.useState(1);
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
 
   React.useEffect(() => {
     setIsLoading(true);
-    const order = activeSort.sortProperty.includes('-') ? 'desc' : 'asc';
-    const sortBy = activeSort.sortProperty.replace('-', '');
-    const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+    const order = sortType.includes('-') ? 'desc' : 'asc';
+    const sortBy = sortType.replace('-', '');
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
     fetch(
@@ -29,22 +35,20 @@ const Home = () => {
       .then((response) => response.json())
       .then((items) => {
         setItems(items);
-        console.log(items);
         setIsLoading(false);
       });
 
     window.scrollTo(0, 0);
-  }, [activeCategory, activeSort, searchValue, currentPage]);
+  }, [categoryId, sortType, searchValue, currentPage]);
+
   const skeleton = [...new Array(6)].map((_, index) => <PizzaBlockSkeleton key={index} />);
   const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
+
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          currentCategory={activeCategory}
-          changeCurrentCategory={(categoryIndex) => setActiveCategory(categoryIndex)}
-        />
-        <Sort currentSort={activeSort} changeCurrentSort={(i) => setActiveSort(i)} />
+        <Categories currentCategory={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeleton : pizzas}</div>
