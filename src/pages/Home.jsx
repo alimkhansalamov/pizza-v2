@@ -3,6 +3,7 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaBlockSkeleton from '../components/PizzaBlock/PizzaBlockSkeleton';
+import axios from 'axios';
 import Pagination from '../components/Pagination';
 import { SearchContext } from './../App';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,12 +30,12 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    fetch(
-      `https://62c808dc8c90491c2cacf1b9.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-    )
-      .then((response) => response.json())
-      .then((items) => {
-        setItems(items);
+    axios
+      .get(
+        `https://62c808dc8c90491c2cacf1b9.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+      )
+      .then((response) => {
+        setItems(response.data);
         setIsLoading(false);
       });
 
