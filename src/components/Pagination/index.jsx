@@ -9,10 +9,10 @@ const Pagination = ({ currentPage, onChangePage }) => {
       breakLabel="..."
       nextLabel=">"
       previousLabel="<"
-      onPageChange={(event) => onChangePage(event.selected + 1)}
+      onPageChange={(event) => onChangePage(event.selected + 1)} // to go from index to actual number that I need
       pageRangeDisplayed={4}
       pageCount={3}
-      forcePage={currentPage - 1}
+      forcePage={currentPage - 1} // to go from index to actual number that I need
     />
   );
 };
